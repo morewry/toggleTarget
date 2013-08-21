@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width">
+	<title>Toggle Target</title>
+	<style>
+		html, body {
+			/* resets */
+			overflow-x: hidden;
+			height: 100%;
+		}
+		html {
+			/* resets */
+			overflow-y: scroll;
+			-webkit-text-size-adjust: 100%;
+			-ms-text-size-adjust: 100%;
+			/* style */
+			font-size: 1.25vw;
+			line-height: 1.618033;
+			color: #555;
+			background: #FFF;
+		}
+		body {
+			/* resets */
+			overflow-y: hidden;
+			/* style */
+			padding: 1.618033rem;
+		}
+		.hidden { display: none; }
+		/* Bare bones styles for tab demo */
+		.tabs {
+			/* resets */
+			margin: 0; padding: 0;
+			list-style: none;
+			/* style */
+			overflow: hidden;
+		}
+			.tabs--tab {
+				float: left;
+				margin-right: 0.5rem;
+				border: 1px solid;
+			}
+			.tabs--tab__active {
+				position: relative;
+				border-bottom-color: #FFF;
+				z-index: 1;
+			}
+			.tabs--content {
+				margin-top: -1px;
+				padding: 0.309016rem 0.5rem;
+				border: 1px solid;
+			}
+		/* Bare bones styles for accordion demo */
+		.mod {
+			/* resets */
+			display: block;
+			/* style */
+			border: 1px solid black;
+			border-top-width: 0;
+		}
+		.mod:first-child { border-top-width: 1px; }
+				.mod--head,
+				.mod--body {
+					/* reset */
+					margin: 0;
+					/* style */
+					padding: 0 0.618033rem;
+				}
+					.mod--title { }
+		/* Bare bones styles for menu demo */
+		.menu {
+			/* structure */
+			position: relative;
+			display: inline-block;
+		}
+			.menu--btn,
+			.menu--list {
+				/* style */
+				padding: 0.309016rem 0.618033rem;
+			}
+			.menu--btn { border: 1px solid #000; }
+			.menu--btn__active { border-bottom-width: 0; }
+			.menu--list {
+				/* structure */
+				position: absolute;
+				/* style */
+				border: 1px solid #000;
+				border-top-width: 0;
+			}
+				.menu--link {
+					/* resets */
+					text-decoration: none;
+					/* structure */
+					display: block;
+				}
+		button {
+			/* resets */
+			margin: 0;
+			background: transparent;
+			border: 0;
+			font-size: 100%;
+			line-height: 1;
+			width: auto;
+			cursor: pointer;
+			/* style */
+			padding: 0.309016rem 0.618033rem;
+		}
+		.active { background-color: rgba(255,0,0, 0.25); cursor: default; }
+		.hover { background-color: rgba(0,0,255, 0.25); }
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="jquery.toggleTarget.js"></script>
+</head>
+<body>
+
+<h1>toggleTarget as Tabs</h1>
+<ol class="tabs" data-tabsnav>
+	<li>
+		<button class="tabs--tab tabs--tab__1 active" data-tab data-target="tab-name1">Tab Name 1</button>
+   </li>
+	<li>
+		<button class="tabs--tab tabs--tab__2" data-tab data-target="tab-name2">Tab Name 2</button>
+	</li>
+	<li>
+		<button class="tabs--tab tabs--tab__3" data-tab data-target="tab-name3">Tab Name 3</button>
+	</li>
+</ol>
+
+<div data-id="tab-name1" class="tabs--content">
+	Tab Name 1 Content
+</div>
+
+<div data-id="tab-name2" class="hidden tabs--content">
+	Tab Name 2 Content
+</div>
+
+<div data-id="tab-name3" class="hidden tabs--content">
+	Tab Name 3 Content
+</div>
+
+<hr>
+
+<h1>toggleTarget as Accordion</h1>
+
+<article data-accordion>
+
+	<section class="mod">
+		<h1 class="mod--head mod--title" data-accord data-target="mod1">Accordion Heading 1</h1>
+		<div class="hidden mod--body" data-id="mod1">
+			Accordion Body 1 Content
+		</div>
+	</section>
+
+	<section class="mod">
+		<h1 class="mod--head mod--title" data-accord data-target="mod2">Accordion Heading 2</h1>
+		<div class="hidden mod--body" data-id="mod2">
+			Accordion Body 2 Content
+		</div>
+	</section>
+
+	<section class="mod">
+		<h1 class="mod--head mod--title" data-accord data-target="mod3">Accordion Heading 3</h1>
+		<div class="hidden mod--body" data-id="mod3">
+			Accordion Body 3 Content
+		</div>
+	</section>
+
+</article>
+
+<hr>
+
+<h1>toggleTarget as Menu</h1>
+
+<nav class="menu">
+	<button class="menu--btn" data-tog data-target="dropdown">Dropdown Menu</button>
+	<section class="hidden menu--list" data-id="dropdown">
+		<a class="menu--link" href="#1">Dropdown Menu Link 1</a>
+		<a class="menu--link" href="#2">Dropdown Menu Link 2</a>
+		<a class="menu--link" href="#3">Dropdown Menu Link 3</a>
+		<a class="menu--link" href="#4">Dropdown Menu Link 4</a>
+	</section>
+</nav>
+
+<script defer async>
+(function ($) {
+	// Example init 1: used on tab demo
+	$.fn.toggleTarget({
+		groupSelector: '[data-tabsnav]',
+		toggleSelector: '[data-tab]',
+		alwaysOne: true
+	});
+	// Example init 2: used on accordion demo
+	$.fn.toggleTarget({
+		groupSelector: '[data-accordion]',
+		toggleSelector: '[data-accord]'
+	});
+	// Example init 3: used on menu demo
+	$('.menu--btn').toggleTarget();
+}(jQuery))
+</script>
+</body>
+</html>
