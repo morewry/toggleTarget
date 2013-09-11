@@ -8,7 +8,7 @@ toggleTarget has a loose dependency on stateClasses (another plugin I wrote).  I
 
 ## Why to Use?
 
-- Optionally integrates with stateClasses, which we should be using to unify state management site-wide for many of the same reasons we should be using this plugin.
+- Optionally integrates with stateClasses, which we can be used to unify state management site-wide.
 - Reduces duplication of code related to these common interface behaviors.
 - Reduces the number of potential failure points where the JavaScript is directly managing the style of elements rather than their behavior.
 - Ensures design teams can manage appearance without needing to edit JavaScript by using CSS animations by default.
