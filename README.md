@@ -8,12 +8,12 @@ toggleTarget has a loose dependency on stateClasses (another plugin I wrote).  I
 
 ## Why to Use?
 
-- Optionally integrates with stateClasses, which we can be used to unify state management site-wide.
+- Optionally integrates with stateClasses, which can be used to unify state management site-wide.
 - Reduces duplication of code related to these common interface behaviors.
 - Reduces the number of potential failure points where the JavaScript is directly managing the style of elements rather than their behavior.
 - Ensures design teams can manage appearance without needing to edit JavaScript by using CSS animations by default.
 - Enables higher performance animations with CSS animations as default.
-- Reducing the number of event bindings by using event delegation.
+- Reduces the number of event bindings by using event delegation.
 - Minimizes DOM traversal and expensive jQuery object generation.
 - Loosens the coupling between HTML markup and JavaScript behavior.
 
@@ -35,7 +35,7 @@ When the plugin initiates it will automatically determine toggled state of contr
 		<li>
 			<button class="tabs--tab" data-tab data-target="tab-name2">Tab Name 2</button>
 		</li>
-	 <li>
+		<li>
 			<button class="tabs--tab" data-tab data-target="tab-name3">Tab Name 3</button>
 		</li>
 	</ol>
