@@ -130,7 +130,7 @@ default: `function`
 Callback when toggle-above content is being hidden.  This is one of the places the loose dependency on stateClasses can be removed or JavaScript animation can be added.
 
 - Instead of changing classes for toggle control state directly, the default callback function triggers the stateClasses event.
--Instead of animating the transition in JavaScript, the plugin swaps out the optional targetHideClass and targetShowClass, allowing use of CSS animations.
+- Instead of animating the transition in JavaScript, the plugin swaps out the optional targetHideClass and targetShowClass, allowing use of CSS animations.
 
 ## Methods
 
