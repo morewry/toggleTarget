@@ -37,7 +37,7 @@
 				 *
 				 * Target ____ Callback / Target After ____
 				 * arguments: "event" is jquery event object
-				 * 						"opts" are plugin instance options
+				 *					  "opts" are plugin instance options
 				 * context: "this" is an individual toggle object
 				 * { el, $el, $target }
 				 *
@@ -155,6 +155,7 @@
 						plugin._hide(each, event);
 					} // !multiOpen
 				} // inactive
+				// console.log(each);
 			}); // each plugin.$togs
 		}, // toggle
 
@@ -231,4 +232,3 @@
 		return returns;
 	}; // $.fn
 }));
-
