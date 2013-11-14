@@ -67,6 +67,8 @@ This example also shows a scenario in which the selectors are customized so that
 - Because it was passed a jQuery object and there is no group wrapper, the object returned by $('[data-tog]') will be both the toggle and group.
 - This toggle will be able to alternate between open and closed states on each click.
 
+*For more examples see toggletarget.html*
+
 ## Options
 
 **alwaysOne**<br>
@@ -131,7 +133,7 @@ The plugin does not do any animation, rather it assumes css animations for conve
 
 **targetHideClass**<br>
 optional, class string<br>
-default: `hidden`
+default: `hide`
 
 The plugin does not do any animation, rather it assumes css animations for convenience and performance reasons.  Class(es) to add when hiding content.
 

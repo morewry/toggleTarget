@@ -8,12 +8,12 @@
 	<style>
 		html, body {
 			/* resets */
+			margin: 0;
 			overflow-x: hidden;
-			height: 100%;
+			min-height: 100%;
 		}
 		html {
-			/* resets */
-			overflow-y: scroll;
+			/* resets */			
 			-webkit-text-size-adjust: 100%;
 			-ms-text-size-adjust: 100%;
 			/* style */
@@ -23,8 +23,6 @@
 			background: #FFF;
 		}
 		body {
-			/* resets */
-			overflow-y: hidden;
 			/* style */
 			padding: 1.618033rem;
 		}
@@ -82,6 +80,7 @@
 				position: absolute;
 				/* style */
 				border: 1px solid #000; border-top-width: 0;
+				background: #fff;
 			}
 				.menu--link {
 					/* resets */
@@ -104,21 +103,23 @@
 		.active { background-color: rgba(255,0,0, 0.25); cursor: default; }
 		.hover { background-color: rgba(0,0,255, 0.25); }
 	</style>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-	<script src="/js/libs/custom/jquery.stateclasses.js"></script>
-	<script src="/js/libs/custom/jquery.toggleTarget.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="http://rawgithub.com/morewry/stateClasses/master/jquery.stateclasses.js"></script>
+	<script src="jquery.toggleTarget.js"></script>
 </head>
 <body>
 
-<h1>stateClasses Alone</h1>
+<hr>
+
+<h1>0 - stateClasses Alone</h1>
 <a href="#" data-states>Test</a>
 
 <hr>
 
-<h1>stateClasses &amp; toggleTarget as Tabs</h1>
-<ol class="tabs" data-tabsnav data-states="active:tabs--tab__active active, to:[data-tab]">
+<h1>1 - stateClasses &amp; toggleTarget as Tabs</h1>
+<ol class="tabs" data-tabnav data-states="active:tabs--tab__active active, to:[data-tab]">
 	<li>
-		<button class="tabs--tab tabs--tab__1 tabs--tab__1__active tabs--tab__active active" data-tab data-target="tab-name1" data-states="active:tabs--tab__1__active tabs--tab__active active">Tab Name 1</button>
+		<button class="tabs--tab tabs--tab__1 tabs--tab__active active" data-tab data-target="tab-name1">Tab Name 1</button>
    </li>
 	<li>
 		<button class="tabs--tab tabs--tab__2" data-tab data-target="tab-name2">Tab Name 2</button>
@@ -128,7 +129,7 @@
 	</li>
 </ol>
 
-<div data-id="tab-name1" class="show tabs--content">
+<div data-id="tab-name1" class="tabs--content">
 	Tab Name 1 Content
 </div>
 
@@ -142,39 +143,35 @@
 
 <hr>
 
-<h1>stateClasses &amp; toggleTarget as Accordion</h1>
+<h1>2 - stateClasses &amp; toggleTarget as Accordion</h1>
 
-<article data-accordion data-states="active: mod--head__active active, to: [data-accord]">
-
+<article data-accordion data-states="active:mod--head__active active, to:[data-collapse]">
 	<section class="mod">
-		<h1 class="mod--head mod--title" data-accord data-target="mod1">Accordion Heading 1</h1>
+		<h1 class="mod--head mod--title" data-collapse data-target="mod1">Accordion Heading 1</h1>
 		<div class="hide mod--body" data-id="mod1">
 			Accordion Body 1 Content
 		</div>
 	</section>
-
 	<section class="mod">
-		<h1 class="mod--head mod--title" data-accord data-target="mod2">Accordion Heading 2</h1>
+		<h1 class="mod--head mod--title" data-collapse data-target="mod2">Accordion Heading 2</h1>
 		<div class="hide mod--body" data-id="mod2">
 			Accordion Body 2 Content
 		</div>
 	</section>
-
 	<section class="mod">
-		<h1 class="mod--head mod--title" data-accord data-target="mod3">Accordion Heading 3</h1>
+		<h1 class="mod--head mod--title" data-collapse data-target="mod3">Accordion Heading 3</h1>
 		<div class="hide mod--body" data-id="mod3">
 			Accordion Body 3 Content
 		</div>
 	</section>
-
 </article>
 
 <hr>
 
-<h1>stateClasses &amp; toggleTarget as Menu</h1>
+<h1>3 - stateClasses &amp; toggleTarget as Dropdown</h1>
 
 <nav class="menu">
-	<button class="menu--btn" data-states="active: menu--btn__active active" data-tog data-target="dropdown">Dropdown Menu</button>
+	<button class="menu--btn" data-dropdown data-target="dropdown" data-states="active:menu--btn__active active">Dropdown Menu</button>
 	<section class="hide menu--list" data-id="dropdown">
 		<a class="menu--link" href="#1">Dropdown Menu Link 1</a>
 		<a class="menu--link" href="#2">Dropdown Menu Link 2</a>
@@ -183,14 +180,18 @@
 	</section>
 </nav>
 
-<nav data-id="menu">
+<hr>
+
+<h1>4 - stateClasses &amp; toggleTarget as Menu</h1>
+
+<nav data-id="menu" data-states="to:a">
 	<ul>
 		<li>
-			<a href="#1" data-target="submenu">One</a>
+			<a href="#1" data-target="submenu">One (more)</a>
 			<ul class="hide" data-id="submenu">
 				<li><a href="#1s1">Onesub1</a></li>
 				<li>
-					<a href="#1s2" data-target="submenu">Onesub2</a>
+					<a href="#1s2" data-target="submenu">Onesub2 (more)</a>
 					<ul class="hide" data-id="submenu">
 						<li><a href="#1t1">Onesubsub1</a></li>
 						<li><a href="#1t2">Onesubsub2</a></li>
@@ -199,18 +200,34 @@
 			</ul>
 		</li>
 		<li>
-			<a href="#2" data-target="submenu">Two</a>
+			<a href="#2" data-target="submenu">Two (more)</a>
 			<ul class="hide" data-id="submenu">
 				<li><a href="#2s1">Twosub1</a></li>
-				<li><a href="#2s2">Twosub2</a></li>
+				<li>
+					<a href="#2s2" data-target="submenu">Twosub2 (more)</a>
+					<ul class="hide" data-id="submenu">
+						<li>
+							<a href="#2t1" data-target="submenu">Twosubsub1 (more)</a>
+							<ul class="hide" data-id="submenu">
+								<li><a href="#2p1">Twosubsubsub1</a></li>
+								<li>
+									<a href="#2p2" data-target="submenu">Twosubsubsub2 (more)</a>
+									<ul class="hide" data-id="submenu">
+										<li><a href="#2k1">Twosubsubsubsub1</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
 				<li><a href="#2s3">Twosub3</a></li>
 			</ul>
 		</li>
 		<li>
-			<a href="#3" data-target="submenu">Three</a>
+			<a href="#3" data-target="submenu">Three (more)</a>
 			<ul class="hide" data-id="submenu">
 				<li>
-					<a href="#3s1" data-target="submenu">Threesub1</a>
+					<a href="#3s1" data-target="submenu">Threesub1 (more)</a>
 					<ul class="hide" data-id="submenu">
 						<li><a href="#3t1">Threesubsub1</a></li>
 						<li><a href="#3t2">Threesubsub2</a></li>
@@ -224,30 +241,77 @@
 	</ul>
 </nav>
 
+<hr>
+
+<h1>5 - stateClasses &amp; multiple toggleTargets</h1>
+
+<button data-multi data-target="multi" data-states>This toggles three targets</button>
+<div class="hide" data-id="multi">Multi Target 1</div>
+<div class="hide" data-id="multi">Multi Target 2</div>
+<div class="hide" data-id="multi">Multi Target 3</div>
+
+<hr>
+
+<h1>6 - stateClasses &amp; toggleTarget target is also a toggle</h1>
+
+<nav data-id="steps">
+	<button data-id="stepone" data-target="steptwo" data-states>Toggle 1</button>
+	<button class="hide" data-id="steptwo" data-target="stepthree" data-states>Target &amp; Toggle 2</button>
+	<button class="hide" data-id="stepthree" data-target="stepfour" data-states>Target &amp; Toggle 3</button>
+	<button class="hide" data-id="stepfour" data-target="stepfive" data-states>Target &amp; Toggle 4</button>
+	<div class="hide" data-id="stepfive">Final Target (Step Five)</div>
+</nav>
+
+<nav data-altsteps>
+	<button data-step="two" data-id="one" data-states>Toggle 1</button>
+	<button class="hide" data-step="three" data-id="two" data-states>Target &amp; Toggle 2</button>
+	<button class="hide" data-step="four" data-id="three" data-states>Target &amp; Toggle 3</button>
+	<button class="hide" data-step="five" data-id="four" data-states>Target &amp; Toggle 4</button>
+	<div class="hide" data-id="five">Final Target (Step Five)</div>
+</nav>
+
+<hr>
+
 <script defer async>
 (function ($) {
-	var $document = $(document), $body = $("body");
 	// Global/UI helper
 	$('[data-states]').stateClasses();
 	// Example init 1: used on tab demo
-	$('[data-tabsnav]').toggleTarget({
+	$('[data-tabnav]').toggleTarget({
 		toggleSelector: '[data-tab]',
 		alwaysOne: true
 	});
 	// Example init 2: used on accordion demo
 	$('[data-accordion]').toggleTarget({
-		toggleSelector: '[data-accord]'
+		toggleSelector: '[data-collapse]'
 	});
-	// Example init 3: used on menu demo
-	$('.menu--btn').toggleTarget();
-
+	// Example init 3: used on dropdown demo
+	$('[data-dropdown]').toggleTarget();
+	// Example init 4: used on menu demo
 	$('[data-id="menu"]').toggleTarget({
 		toggleSelector: '[data-target="submenu"]',
 		targetSelector: '[data-id="{{target}}"]',
 		multiOpen: true
 	});
+	// Example init 5: used on menu demo
+	$('[data-multi]').toggleTarget({
+		multiTarget: true
+	});
+	// Example init 6: used on target/toggle (two variants)
+	$('[data-id="steps"]').toggleTarget({
+		toggleSelector: '[data-id="stepone"]'
+	});
+	$('[data-id="steptwo"]').toggleTarget();
+	$('[data-id="stepthree"]').toggleTarget();
+	$('[data-id="stepfour"]').toggleTarget();
+	$('[data-altsteps]').toggleTarget({
+		multiOpen: true,
+		toggleSelector: '[data-step]',
+		targetAttribute: 'data-step'
+	});
 
 }(jQuery))
 </script>
+
 </body>
 </html>

@@ -54,7 +54,8 @@
 	function Plugin ( el, options ) {
 		this._defaults = defaults;
 		this._name = pluginName;
-		this._state = this._name + '-state';
+		this._stateref = this._name + '-state';
+		this._instref = this._name + '-plugin';
 		this.opts = $.extend( {}, defaults, options );
 		// several options for el, figure out which should be used for this instance
 		if ( this.opts.groupEl ) {
@@ -93,19 +94,19 @@
 			// console.log(this.opts);
 			var eventName = 'click.' + this._name,
 					eventHandler = function ( event ) {
-						// console.log("$.fn.toggleTarget - eventHandler, key: " + event.data.key);
+						// console.log("$.fn.toggleTarget - eventHandler, instref: " + event.data.instref);
 						// console.log(event);
 						var isPlugin = function ( o, k ) {
 									return ( o && typeof o == "object" && o._toggle );
 								},
 								el = event.currentTarget,
-								pel = (el) ? $.data(el, event.data.key) : event.delegateTarget,
-								plugin = (pel && !isPlugin(pel)) ? $.data(pel, event.data.key) : pel;
+								pel = (el) ? $.data(el, event.data.instref) : event.delegateTarget,
+								plugin = (pel && !isPlugin(pel)) ? $.data(pel, event.data.name) : pel;
 						return (isPlugin(plugin)) ? plugin._toggle( el, event ) : false;
-					};
+					}; // eventHandler
 			// console.log("$.fn.toggleTarget - on " + eventName + " " + this.opts.toggleSelector);
-			$document.on(eventName, this.opts.toggleSelector, {key: this._name}, eventHandler);
-			this.$togs.data(this._name, this.el);
+			$document.on(eventName, this.opts.toggleSelector, {instref: this._instref, name: this._name}, eventHandler);
+			this.$togs.data(this._instref, this.el);
 		}, // init
 
 		/**
@@ -121,11 +122,11 @@
 			cur.$el = $(el);
 			cur.$sibs = plugin.$togs.not(cur.$el);
 			// Toggle state
-			cur.state = ( plugin.opts.alwaysOne ) ? true : !(cur.$el.data(plugin._state));
+			cur.state = ( plugin.opts.alwaysOne ) ? true : !!!cur.$el.data(plugin._stateref);
 			// Set event origin toggler to true / active
-			cur.$el.data(plugin._state, cur.state);
+			cur.$el.data(plugin._stateref, cur.state);
 			// Set sibling toggles to false / inactive
-			cur.$sibs.data(plugin._state, false);
+			cur.$sibs.data(plugin._stateref, false);
 			// For each possible toggle
 			$.each(plugin.$togs, function ( i ) {
 				// Refs to current toggle, its target
@@ -136,12 +137,13 @@
 				};
 				target = plugin.opts.targetSelector.replace("{{target}}", each.el.getAttribute(plugin.opts.targetAttribute));
 				each.$target = $(target);
+				// console.log("$.fn.toggleTarget - _toggle: targets " + target);
 				if ( !plugin.opts.multiTarget && each.$target.length > 1 ) {
 					// console.log(i);
 					each.$target = each.$target.eq(i);
 				}
 				// If this toggle is currently active
-				if( !!each.$el.data(plugin._state) ) {
+				if( !!each.$el.data(plugin._stateref) ) {
 					// Call active callback
 					plugin._show(each, event);
 				} // active
@@ -212,9 +214,9 @@
 	$.fn[ pluginName ] = function ( options ) {
 		// console.log("$.fn.toggleTarget");
 		var instance, returns, options = options || {};
-		if ( this.selector && !options.selector ) {
-			$.extend( { groupSelector: this.selector, toggleSelector: this.selector }, options );
-		}
+		if ( this.selector ) {
+			options = $.extend( { groupSelector: this.selector, toggleSelector: this.selector }, options );
+		} // selector
 		returns = this.each(function () {
 			instance = $.data( this, pluginName );
 			if ( typeof options === 'object' && !instance ) {
