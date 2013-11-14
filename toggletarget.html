@@ -28,7 +28,7 @@
 			/* style */
 			padding: 1.618033rem;
 		}
-		.hidden { display: none; }
+		.hide { display: none; }
 		/* Bare bones styles for tab demo */
 		.tabs {
 			/* resets */
@@ -41,6 +41,11 @@
 				float: left;
 				margin-right: 0.5rem;
 				border: 1px solid;
+			}
+			.tabs--tab__active {
+				position: relative;
+				border-bottom-color: #FFF;
+				z-index: 1;
 			}
 			.tabs--content {
 				margin-top: -1px;
@@ -57,13 +62,8 @@
 		}
 		.mod:first-child { border-top-width: 1px; }
 				.mod--head,
-				.mod--body {
-					/* reset */
-					margin: 0;
-					/* style */
-					padding: 0 0.618033rem;
-				}
-					.mod--title { }
+				.mod--body { margin: 0; padding: 0 0.618033rem; }
+						.mod--title { }
 		/* Bare bones styles for menu demo */
 		.menu {
 			/* structure */
@@ -76,12 +76,12 @@
 				padding: 0.309016rem 0.618033rem;
 			}
 			.menu--btn { border: 1px solid #000; }
+			.menu--btn__active { border-bottom-width: 0; }
 			.menu--list {
 				/* structure */
 				position: absolute;
 				/* style */
-				border: 1px solid #000;
-				border-top-width: 0;
+				border: 1px solid #000; border-top-width: 0;
 			}
 				.menu--link {
 					/* resets */
@@ -101,16 +101,24 @@
 			/* style */
 			padding: 0.309016rem 0.618033rem;
 		}
+		.active { background-color: rgba(255,0,0, 0.25); cursor: default; }
+		.hover { background-color: rgba(0,0,255, 0.25); }
 	</style>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-	<script src="jquery.toggleTarget.js"></script>
+	<script src="/js/libs/custom/jquery.stateclasses.js"></script>
+	<script src="/js/libs/custom/jquery.toggleTarget.js"></script>
 </head>
 <body>
 
-<h1>toggleTarget as Tabs</h1>
-<ol class="tabs" data-tabsnav>
+<h1>stateClasses Alone</h1>
+<a href="#" data-states>Test</a>
+
+<hr>
+
+<h1>stateClasses &amp; toggleTarget as Tabs</h1>
+<ol class="tabs" data-tabsnav data-states="active:tabs--tab__active active, to:[data-tab]">
 	<li>
-		<button class="tabs--tab tabs--tab__1 active" data-tab data-target="tab-name1">Tab Name 1</button>
+		<button class="tabs--tab tabs--tab__1 tabs--tab__1__active tabs--tab__active active" data-tab data-target="tab-name1" data-states="active:tabs--tab__1__active tabs--tab__active active">Tab Name 1</button>
    </li>
 	<li>
 		<button class="tabs--tab tabs--tab__2" data-tab data-target="tab-name2">Tab Name 2</button>
@@ -120,41 +128,41 @@
 	</li>
 </ol>
 
-<div data-id="tab-name1" class="tabs--content">
+<div data-id="tab-name1" class="show tabs--content">
 	Tab Name 1 Content
 </div>
 
-<div data-id="tab-name2" class="hidden tabs--content">
+<div data-id="tab-name2" class="hide tabs--content">
 	Tab Name 2 Content
 </div>
 
-<div data-id="tab-name3" class="hidden tabs--content">
+<div data-id="tab-name3" class="hide tabs--content">
 	Tab Name 3 Content
 </div>
 
 <hr>
 
-<h1>toggleTarget as Accordion</h1>
+<h1>stateClasses &amp; toggleTarget as Accordion</h1>
 
-<article data-accordion>
+<article data-accordion data-states="active: mod--head__active active, to: [data-accord]">
 
 	<section class="mod">
 		<h1 class="mod--head mod--title" data-accord data-target="mod1">Accordion Heading 1</h1>
-		<div class="hidden mod--body" data-id="mod1">
+		<div class="hide mod--body" data-id="mod1">
 			Accordion Body 1 Content
 		</div>
 	</section>
 
 	<section class="mod">
 		<h1 class="mod--head mod--title" data-accord data-target="mod2">Accordion Heading 2</h1>
-		<div class="hidden mod--body" data-id="mod2">
+		<div class="hide mod--body" data-id="mod2">
 			Accordion Body 2 Content
 		</div>
 	</section>
 
 	<section class="mod">
 		<h1 class="mod--head mod--title" data-accord data-target="mod3">Accordion Heading 3</h1>
-		<div class="hidden mod--body" data-id="mod3">
+		<div class="hide mod--body" data-id="mod3">
 			Accordion Body 3 Content
 		</div>
 	</section>
@@ -163,11 +171,11 @@
 
 <hr>
 
-<h1>toggleTarget as Menu</h1>
+<h1>stateClasses &amp; toggleTarget as Menu</h1>
 
 <nav class="menu">
-	<button class="menu--btn" data-tog data-target="dropdown">Dropdown Menu</button>
-	<section class="hidden menu--list" data-id="dropdown">
+	<button class="menu--btn" data-states="active: menu--btn__active active" data-tog data-target="dropdown">Dropdown Menu</button>
+	<section class="hide menu--list" data-id="dropdown">
 		<a class="menu--link" href="#1">Dropdown Menu Link 1</a>
 		<a class="menu--link" href="#2">Dropdown Menu Link 2</a>
 		<a class="menu--link" href="#3">Dropdown Menu Link 3</a>
@@ -175,21 +183,70 @@
 	</section>
 </nav>
 
+<nav data-id="menu">
+	<ul>
+		<li>
+			<a href="#1" data-target="submenu">One</a>
+			<ul class="hide" data-id="submenu">
+				<li><a href="#1s1">Onesub1</a></li>
+				<li>
+					<a href="#1s2" data-target="submenu">Onesub2</a>
+					<ul class="hide" data-id="submenu">
+						<li><a href="#1t1">Onesubsub1</a></li>
+						<li><a href="#1t2">Onesubsub2</a></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="#2" data-target="submenu">Two</a>
+			<ul class="hide" data-id="submenu">
+				<li><a href="#2s1">Twosub1</a></li>
+				<li><a href="#2s2">Twosub2</a></li>
+				<li><a href="#2s3">Twosub3</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#3" data-target="submenu">Three</a>
+			<ul class="hide" data-id="submenu">
+				<li>
+					<a href="#3s1" data-target="submenu">Threesub1</a>
+					<ul class="hide" data-id="submenu">
+						<li><a href="#3t1">Threesubsub1</a></li>
+						<li><a href="#3t2">Threesubsub2</a></li>
+						<li><a href="#3t3">Threesubsub2</a></li>
+					</ul>
+				</li>
+				<li><a href="#3s2">Threesub2</a></li>
+				<li><a href="#3s3">Threesub3</a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
 <script defer async>
 (function ($) {
+	var $document = $(document), $body = $("body");
+	// Global/UI helper
+	$('[data-states]').stateClasses();
 	// Example init 1: used on tab demo
-	$.fn.toggleTarget({
-		groupSelector: '[data-tabsnav]',
+	$('[data-tabsnav]').toggleTarget({
 		toggleSelector: '[data-tab]',
 		alwaysOne: true
 	});
 	// Example init 2: used on accordion demo
-	$.fn.toggleTarget({
-		groupSelector: '[data-accordion]',
+	$('[data-accordion]').toggleTarget({
 		toggleSelector: '[data-accord]'
 	});
 	// Example init 3: used on menu demo
 	$('.menu--btn').toggleTarget();
+
+	$('[data-id="menu"]').toggleTarget({
+		toggleSelector: '[data-target="submenu"]',
+		targetSelector: '[data-id="{{target}}"]',
+		multiOpen: true
+	});
+
 }(jQuery))
 </script>
 </body>
